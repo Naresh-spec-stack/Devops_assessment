@@ -1,0 +1,14 @@
+mappings:
+  - api_endpoint: /users
+    query: SELECT id, name, created_at FROM users;
+    columns:
+      id: user_id
+      name: user_name
+      created_at: registered_at
+
+  - api_endpoint: /products
+    query: SELECT id, name, price FROM products;
+    columns:
+      id: product_id
+      name: product_name
+      price: product_price
