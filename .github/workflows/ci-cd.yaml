@@ -1,1 +1,24 @@
+name: CI/CD
 
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: |
+        docker build -t localhost:5000/api:latest ./api
+        docker push localhost:5000/api:latest
+
+    - name: Apply Kubernetes manifests
+      run: |
+        kubectl apply -f k8s/namespace.yaml
+        kubectl apply -f k8s/postgres-deployment.yaml
+        kubectl apply -f k8s/registry-deployment.yaml
+        kubectl apply -f k8s/api-configmap.yaml
+        kubectl apply -f k8s/api-deployment.yaml
